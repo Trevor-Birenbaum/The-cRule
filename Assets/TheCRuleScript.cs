@@ -758,7 +758,7 @@ public class TheCRuleScript : MonoBehaviour {
 
         while (!moduleSolved)
 		{
-			yield return null;
+			yield return true;
 		}
 	}
 }
