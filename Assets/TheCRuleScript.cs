@@ -651,8 +651,6 @@ public class TheCRuleScript : MonoBehaviour {
 		#pragma warning restore 414
 
 		IEnumerator ProcessTwitchCommand(string input) {
-		yield return null;
-
 				if (Regex.IsMatch(input, @"^\s*reset\s*$", RegexOptions.IgnoreCase)) {
 						yield return null;
 						buttonR.OnInteract();
@@ -741,7 +739,9 @@ public class TheCRuleScript : MonoBehaviour {
 						}
 				}
 
-			foreach (KMSelectable b in buttonsToPress)
+        yield return null;
+
+        foreach (KMSelectable b in buttonsToPress)
 			{ 
 				b.OnInteract();
 			}
