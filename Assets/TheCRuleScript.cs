@@ -42,6 +42,7 @@ public class TheCRuleScript : MonoBehaviour {
 
 		private int cellPressIndex;
 		private int colorPressIndex = -1;
+		private bool moduleSolved = false;
 
 		static int moduleIdCounter = 1;
 		int moduleId;
@@ -635,8 +636,9 @@ public class TheCRuleScript : MonoBehaviour {
 										rows[j].material = colors[7];
 								}
 						}
+						moduleSolved = true;
 						GetComponent<KMBombModule>().HandlePass();
-						Debug.LogFormat("[The cRule #{0}] Module solved!", moduleId);
+                        Debug.LogFormat("[The cRule #{0}] Module solved!", moduleId);
 				}
 		}
 
@@ -737,8 +739,26 @@ public class TheCRuleScript : MonoBehaviour {
 						}
 				}
 
-				yield return null;
-				yield return buttonsToPress;
+        yield return null;
+
+        foreach (KMSelectable b in buttonsToPress)
+			{ 
+				b.OnInteract();
+			}
 		}
 
+	IEnumerator TwitchHandleForcedSolve()
+	{
+        for(int i = 0; i < solLetters.Length; i++)
+        {
+            yield return ProcessTwitchCommand(solLetters[i] + " " + (i + 1));
+        }
+
+        yield return ProcessTwitchCommand("submit");
+
+        while (!moduleSolved)
+		{
+			yield return true;
+		}
+	}
 }
